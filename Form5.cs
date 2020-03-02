@@ -25,8 +25,8 @@ namespace Kurs
             // Checks the value of the text.
 
             // Initializes the variables to pass to the MessageBox.Show method.
-            string message = "Ти деган, ти ніхуя не ввів, введеш ще раз?";
-            string caption = "Пізда";
+            string message = "Введені не всі дані, ввести ще раз?";
+            string caption = "Помилка";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
 
@@ -40,6 +40,30 @@ namespace Kurs
                 newform.Show();
             }
             else this.Close();
+
+        }
+
+        private void validateSizeOfMatrix2()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+            
+            string message = "Введені не всі комірки, тому вони = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            //if (result == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // Closes the parent form.
+            //    this.Close();
+            //    Form4 newform = new Form4();
+            //    newform.Show();
+            //}
+            
 
         }
 
@@ -69,6 +93,11 @@ namespace Kurs
             this.button2.Visible = true;
             this.label6.Visible = true;
             this.flowLayoutPanel1.Visible = true;
+            this.textBox1.Visible = true;
+            this.label7.Visible = true;
+
+            textBox1.MouseClick += TextBox_OnFocus;
+            textBox1.KeyPress += TextBox_KeyPress;
 
             flowLayoutPanel1.Width = (int)37 * colomsAmount;
             flowLayoutPanel1.Height = (int)32 * rawsAmount;
@@ -82,8 +111,10 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * colomsAmount;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    panel.Controls.Add(box);
                 }
             }
 
@@ -94,17 +125,46 @@ namespace Kurs
         private void button2_Click(object sender, EventArgs e)
         {
             double[,] array1 = new double[rawsAmount, colomsAmount];
-
+            int k = 0;
             for (int i = 0; i < rawsAmount; i++)
             {
                 for (int j = 0; j < colomsAmount; j++)
                 {
-                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
-                    // Console.Write($"{array1[i, j]}");
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "")
+                    {
+                        k++;
+                        
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+                        
+                        if (k == 1)
+                            validateSizeOfMatrix2();
+                    }
+                    
                 }
-                // Console.WriteLine();
+                
             }
 
+            if (this.textBox1.Text == String.Empty)
+            {
+                validateUserEntry();
+            }
+            else
+            {
+                multiplier = Convert.ToDouble(textBox1.Text.ToString());
+
+
+                
+
+                for (int i = 0; i < rawsAmount; i++)
+                {
+                    for (int j = 0; j < colomsAmount; j++)
+                    {
+                        array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                        // Console.Write($"{array1[i, j]}");
+                    }
+                    // Console.WriteLine();
+                }
+            }
             this.flowLayoutPanel2.Visible = true;
             flowLayoutPanel2.Width = (int)38 * colomsAmount ;
             flowLayoutPanel2.Height = (int)32 * rawsAmount;
@@ -132,6 +192,27 @@ namespace Kurs
 
                 }
 
+            }
+        }
+
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 44) // цифры и клавиша BackSpace и кома
+            {
+                e.Handled = true;
             }
         }
     }

@@ -24,8 +24,31 @@ namespace Kurs
             // Checks the value of the text.
 
             // Initializes the variables to pass to the MessageBox.Show method.
-            string message = "Ти деган, ти ніхуя не ввів, введеш ще раз?";
-            string caption = "Пізда";
+            string message = "Введені не всі дані, ввести ще раз?";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                // Closes the parent form.
+                this.Close();
+                Form4 newform = new Form4();
+                newform.Show();
+            }
+            else this.Close();
+
+        }
+
+        private void validateSizeOfMatrix2()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+            string message = "Дані матриці введені некоректо, спробувати ще раз?";
+            string caption = "Помилка";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
 
@@ -74,9 +97,14 @@ namespace Kurs
                 rawsAmount2 = Convert.ToInt32(comboBox3.SelectedItem.ToString());
                 colomsAmount = Convert.ToInt32(comboBox2.SelectedItem.ToString());
                 colomsAmount2 = Convert.ToInt32(comboBox4.SelectedItem.ToString());
-            }
 
-           
+                if (colomsAmount != rawsAmount2)
+                {
+                    validateSizeOfMatrix2();
+                }
+            }
+            
+            
 
             //  Console.WriteLine($" 1 - {rawsAmount}, 2 - {colomsAmount}");
 
@@ -100,8 +128,10 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * colomsAmount;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    panel.Controls.Add(box);
                 }
             }
             //make panel 2
@@ -113,8 +143,11 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel2.Controls[flowLayoutPanel2.Controls.Count - 1];
                     panel.Width = (int)37 * colomsAmount2;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    
+                    panel.Controls.Add(box);
                 }
             }
 
@@ -158,8 +191,8 @@ namespace Kurs
             flowLayoutPanel3.Location = new System.Drawing.Point(12, 226 + (27 * rawsAmount));
 
 
-            flowLayoutPanel3.Width = (int)37 * rawsAmount ;
-            flowLayoutPanel3.Height = (int)32 * colomsAmount2;
+            flowLayoutPanel3.Width = (int)37 * colomsAmount2  ;
+            flowLayoutPanel3.Height = (int)32 * rawsAmount;
             // make panel 3
             for (int i = 0; i < rawsAmount; i++)
             {
@@ -185,6 +218,24 @@ namespace Kurs
 
             }
 
+
+        }
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
+        }
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 44) // цифры и клавиша BackSpace и кома
+            {
+                e.Handled = true;
+            }
+        }
+
+
+        private void Form4_Load(object sender, EventArgs e)
+        {
 
         }
 

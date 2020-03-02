@@ -57,7 +57,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(976, 41);
+            this.label1.Size = new System.Drawing.Size(993, 41);
             this.label1.TabIndex = 2;
             this.label1.Text = "Множення матриць";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -168,11 +168,11 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(877, 351);
+            this.button2.Location = new System.Drawing.Point(865, 351);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(87, 23);
+            this.button2.Size = new System.Drawing.Size(116, 29);
             this.button2.TabIndex = 35;
-            this.button2.Text = "Записати";
+            this.button2.Text = "Розрахувати";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -287,7 +287,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(976, 831);
+            this.ClientSize = new System.Drawing.Size(993, 831);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.comboBox4);
             this.Controls.Add(this.label9);
@@ -311,6 +311,7 @@
             this.Name = "Form4";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form4";
+            this.Load += new System.EventHandler(this.Form4_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

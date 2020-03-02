@@ -202,6 +202,7 @@
             this.label7.Size = new System.Drawing.Size(131, 17);
             this.label7.TabIndex = 43;
             this.label7.Text = "Введіть коефіцієнт";
+            this.label7.Visible = false;
             // 
             // textBox1
             // 
@@ -209,6 +210,10 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(54, 22);
             this.textBox1.TabIndex = 44;
+            this.textBox1.Text = "0";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.Visible = false;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // Form5
             // 

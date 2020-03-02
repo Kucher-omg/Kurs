@@ -38,8 +38,8 @@ namespace Kurs
             // Checks the value of the text.
 
             // Initializes the variables to pass to the MessageBox.Show method.
-            string message = "Ти деган, ти ніхуя не ввів, введеш ще раз?";
-            string caption = "Пізда";
+            string message = "Введені не всі дані, ввести ще раз?";
+            string caption = "Помилка";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
 
@@ -92,8 +92,10 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * colomsAmount;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    panel.Controls.Add(box);
                 }
             }
 
@@ -107,6 +109,19 @@ namespace Kurs
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
+        }
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 44) // цифры и клавиша BackSpace и кома
+            {
+                e.Handled = true;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
