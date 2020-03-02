@@ -62,8 +62,8 @@ namespace Kurs
             // Checks the value of the text.
 
             // Initializes the variables to pass to the MessageBox.Show method.
-            string message = "Ти деган, ти ніхуя не ввів, введеш ще раз?";
-            string caption = "Пізда";
+            string message = "Введені не всі дані, ввести ще раз?";
+            string caption = "Помилка";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
 
@@ -80,18 +80,34 @@ namespace Kurs
 
         }
 
+        private void validateSizeOfMatrix2()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+
+            string message = "Введені не всі комірки, тому вони = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
+            this.button1.Enabled = false;
+
             if (this.comboBox1.SelectedItem == null )
             {
                 validateUserEntry();
             }
-
             else
             {
                 rawsAmount = Convert.ToInt32(comboBox1.SelectedItem.ToString());
 
-                
             }
 
             this.button2.Visible = true;
@@ -110,8 +126,10 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * rawsAmount;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    panel.Controls.Add(box);
                 }
             }
         }
@@ -119,6 +137,24 @@ namespace Kurs
         private void button2_Click(object sender, EventArgs e)
         {
             double[,] array1 = new double[rawsAmount, rawsAmount];
+
+            int k = 0;
+            for (int i = 0; i < rawsAmount; i++)
+            {
+                for (int j = 0; j < rawsAmount; j++)
+                {
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "" )
+                    {
+                        k++;
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+
+                        if (k == 1)
+                            validateSizeOfMatrix2();
+                    }
+
+                }
+
+            }
 
             for (int i = 0; i < rawsAmount; i++)
             {
@@ -137,6 +173,19 @@ namespace Kurs
 
             this.label5.Text = $"Визначник матриці:   {det}";
 
+        }
+
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
+        }
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 44) // цифры и клавиша BackSpace и кома
+            {
+                e.Handled = true;
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Kurs
 
         }
 
-        public static double[,] Inverted(double[,] matrix)
+        public double[,] Inverted(double[,] matrix)
         {
             int m = matrix.GetLength(0);
             int n = matrix.GetLength(1);
@@ -100,8 +100,8 @@ namespace Kurs
 
                 if (Math.Abs(pivot) < 1.0E-10)
                 {
-
-                    throw new Exception("!");
+                    validateMatrix();
+                    
                 }
 
                 hold = row[k];
@@ -174,6 +174,8 @@ namespace Kurs
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.button1.Enabled = false;
+
             if (this.comboBox1.SelectedItem == null)
             {
                 validateUserEntry();
@@ -202,8 +204,10 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * rawsAmount;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "2", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    panel.Controls.Add(box);
                 }
             }
         }
@@ -212,8 +216,28 @@ namespace Kurs
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //this.button2.Enabled = false;
 
             double[,] array1 = new double[rawsAmount, rawsAmount];
+
+            int k = 0;
+            for (int i = 0; i < rawsAmount; i++)
+            {
+                for (int j = 0; j < rawsAmount; j++)
+                {
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "")
+                    {
+                        k++;
+
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+
+                        if (k == 1)
+                            validateSizeOfMatrix2();
+                    }
+
+                }
+
+            }
 
             for (int i = 0; i < rawsAmount; i++)
             {
@@ -262,6 +286,66 @@ namespace Kurs
 
         }
 
+        private void validateSizeOfMatrix2()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+
+            string message = "Введені не всі комірки, тому вони = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            //if (result == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // Closes the parent form.
+            //    this.Close();
+            //    Form4 newform = new Form4();
+            //    newform.Show();
+            //}
+
+
+        }
+
+        private void validateMatrix()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+
+            string message = "Не можливо знайти обернену матрицю, тому що визначник = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            //if (result == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // Closes the parent form.
+            //    this.Close();
+            //    Form4 newform = new Form4();
+            //    newform.Show();
+            //}
+
+
+        }
+
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
+        }
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 44) // цифры и клавиша BackSpace и кома
+            {
+                e.Handled = true;
+            }
+        }
 
         private void label5_Click(object sender, EventArgs e)
         {

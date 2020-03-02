@@ -57,20 +57,24 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(127, 119);
+            this.textBox1.Location = new System.Drawing.Point(129, 135);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(54, 22);
             this.textBox1.TabIndex = 58;
+            this.textBox1.Text = "0";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.Visible = false;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 122);
+            this.label7.Location = new System.Drawing.Point(14, 135);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(109, 17);
             this.label7.TabIndex = 57;
             this.label7.Text = "Введіть спетінь";
+            this.label7.Visible = false;
             // 
             // flowLayoutPanel2
             // 
@@ -131,7 +135,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(218, 96);
+            this.button1.Location = new System.Drawing.Point(145, 85);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 51;

@@ -33,6 +33,24 @@ namespace Kurs
             return result;
         }
 
+        private void validateSizeOfMatrix2()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+
+            string message = "Введені не всі комірки, тому вони = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+
+
+
+        }
+
         private void validateUserEntry()
         {
             // Checks the value of the text.
@@ -57,6 +75,7 @@ namespace Kurs
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            this.button1.Enabled = false;
             if (this.comboBox1.SelectedItem == null)
             {
                 validateUserEntry();
@@ -128,7 +147,26 @@ namespace Kurs
         {
             
             double[,] array1 = new double[rawsAmount, colomsAmount];
-            
+
+            int k = 0;
+            for (int i = 0; i < rawsAmount; i++)
+            {
+                for (int j = 0; j < colomsAmount; j++)
+                {
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "")
+                    {
+                        k++;
+
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+
+                        if (k == 1)
+                            validateSizeOfMatrix2();
+                    }
+
+                }
+
+            }
+
             for (int i = 0; i < rawsAmount; i++)
             {
                 for (int j = 0; j < colomsAmount; j++)

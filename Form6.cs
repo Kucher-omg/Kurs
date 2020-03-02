@@ -25,8 +25,8 @@ namespace Kurs
             // Checks the value of the text.
 
             // Initializes the variables to pass to the MessageBox.Show method.
-            string message = "Ти деган, ти ніхуя не ввів, введеш ще раз?";
-            string caption = "Пізда";
+            string message = "Введені не всі дані, ввести ще раз?";
+            string caption = "Помилка";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
 
@@ -40,6 +40,30 @@ namespace Kurs
                 newform.Show();
             }
             else this.Close();
+
+        }
+
+        private void validateSizeOfMatrix2()
+        {
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+
+            string message = "Введені не всі комірки, тому вони = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            //if (result == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // Closes the parent form.
+            //    this.Close();
+            //    Form4 newform = new Form4();
+            //    newform.Show();
+            //}
+
 
         }
 
@@ -145,7 +169,8 @@ namespace Kurs
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (this.comboBox1.SelectedItem == null || this.textBox1.Text == String.Empty)
+            this.button1.Enabled = false;
+            if (this.comboBox1.SelectedItem == null)
             {
                 validateUserEntry();
             }
@@ -157,9 +182,14 @@ namespace Kurs
                 multiplier = Convert.ToDouble(textBox1.Text.ToString());
             }
 
+            this.label7.Visible = true;
             this.button2.Visible = true;
             this.label6.Visible = true;
             this.flowLayoutPanel1.Visible = true;
+            this.textBox1.Visible = true;
+
+            textBox1.MouseClick += TextBox_OnFocus;
+            textBox1.KeyPress += TextBox_KeyPress;
 
             flowLayoutPanel1.Width = (int)37 * rawsAmount;
             flowLayoutPanel1.Height = (int)32 * rawsAmount;
@@ -173,24 +203,60 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * rawsAmount;
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
-
+                    TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
+                    box.MouseClick += TextBox_OnFocus;
+                    box.KeyPress += TextBox_KeyPress;
+                    panel.Controls.Add(box);
                 }
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            this.button2.Enabled = false;
             double[,] array1 = new double[rawsAmount, rawsAmount];
 
+            int k = 0;
             for (int i = 0; i < rawsAmount; i++)
             {
                 for (int j = 0; j < rawsAmount; j++)
                 {
-                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
-                    // Console.Write($"{array1[i, j]}");
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "")
+                    {
+                        k++;
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+
+                        if (k > 0)
+                        {
+                            validateSizeOfMatrix2();
+                        }
+                    }
+
                 }
-                // Console.WriteLine();
+
+            }
+            
+            
+                
+
+            if (this.textBox1.Text == String.Empty)
+            {
+                validateUserEntry();
+            }
+            else
+            {
+                multiplier = Convert.ToDouble(textBox1.Text.ToString());
+
+
+                for (int i = 0; i < rawsAmount; i++)
+                {
+                    for (int j = 0; j < rawsAmount; j++)
+                    {
+                        array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                        // Console.Write($"{array1[i, j]}");
+                    }
+                    // Console.WriteLine();
+                }
             }
 
             this.flowLayoutPanel2.Visible = true;
@@ -232,6 +298,19 @@ namespace Kurs
 
             
 
+        }
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 44) // цифры и клавиша BackSpace и кома
+            {
+                e.Handled = true;
+            }
         }
     }
 }

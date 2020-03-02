@@ -47,21 +47,15 @@ namespace Kurs
             // Checks the value of the text.
 
             // Initializes the variables to pass to the MessageBox.Show method.
-            string message = "Дані матриці введені некоректо, спробувати ще раз?";
+
+            string message = "Введені не всі комірки, тому вони = 0";
             string caption = "Помилка";
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
             DialogResult result;
 
             // Displays the MessageBox.
             result = MessageBox.Show(message, caption, buttons);
-            if (result == System.Windows.Forms.DialogResult.Yes)
-            {
-                // Closes the parent form.
-                this.Close();
-                Form4 newform = new Form4();
-                newform.Show();
-            }
-            else this.Close();
+           
 
         }
 
@@ -83,11 +77,9 @@ namespace Kurs
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (this.comboBox1.SelectedItem == null || this.comboBox3.SelectedItem == null)
-            {
-                validateUserEntry();
-            }
-            else if (this.comboBox2.SelectedItem == null || this.comboBox4.SelectedItem == null)
+            this.button1.Enabled = false;
+
+            if (this.comboBox1.SelectedItem == null || this.comboBox3.SelectedItem == null || this.comboBox2.SelectedItem == null || this.comboBox4.SelectedItem == null)
             {
                 validateUserEntry();
             }
@@ -159,7 +151,30 @@ namespace Kurs
             
             double[,] array1 = new double[rawsAmount, colomsAmount];
             double[,] array2 = new double[rawsAmount2, colomsAmount2];
-            
+
+            int k = 0, h = 0;
+            for (int i = 0; i < rawsAmount; i++)
+            {
+                for (int j = 0; j < colomsAmount; j++)
+                {
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "")
+                    {
+                        k++;
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+                    }
+                    if ((flowLayoutPanel2.Controls[i].Controls[j].Text) == "")
+                    {
+                        h++;
+                        flowLayoutPanel2.Controls[i].Controls[j].Text = "0";
+                    }
+
+                }
+
+            }
+
+            if (k > 0 || h > 0)
+                validateSizeOfMatrix2();
+
             for (int i = 0; i < rawsAmount; i++)
             {
                 for (int j = 0; j < colomsAmount; j++)
@@ -206,6 +221,8 @@ namespace Kurs
 
                 }
             }
+            //this.flowLayoutPanel3.Enabled = false;//ENABLE PANEL
+
 
             for (int i = 0; i < rawsAmount; i++)
             {

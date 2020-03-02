@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace Kurs
 {
-   
+
 
     public partial class Form2 : Form
     {
-        int i=0, j=0;
+        int i = 0, j = 0;
         int rawsAmount;
         int colomsAmount;
         public Form2()
@@ -24,10 +24,7 @@ namespace Kurs
             InitializeComponent();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
 
-        }
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -36,37 +33,38 @@ namespace Kurs
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
         private void validateUserEntry()
         {
             // Checks the value of the text.
-            
-                // Initializes the variables to pass to the MessageBox.Show method.
-                string message = "Введені не всі дані, ввести ще раз?";
-                string caption = "Помилка";
-                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                DialogResult result;
 
-                // Displays the MessageBox.
-                result = MessageBox.Show(message, caption, buttons);
-                if (result == System.Windows.Forms.DialogResult.Yes)
-                {
+            // Initializes the variables to pass to the MessageBox.Show method.
+            string message = "Введені не всі дані, ввести ще раз?";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
                 // Closes the parent form.
                 this.Close();
                 Form2 newform = new Form2();
                 newform.Show();
             }
-                else this.Close();
+            else this.Close();
 
         }
 
-       
-        
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(this.comboBox1.SelectedItem == null || this.comboBox3.SelectedItem == null)
+            this.button1.Enabled = false;
+            if (this.comboBox1.SelectedItem == null || this.comboBox3.SelectedItem == null)
             {
                 validateUserEntry();
             }
@@ -79,10 +77,10 @@ namespace Kurs
                 rawsAmount = Convert.ToInt32(comboBox1.SelectedItem.ToString());
                 colomsAmount = Convert.ToInt32(comboBox2.SelectedItem.ToString());
             }
-            
+
             //  Console.WriteLine($" 1 - {rawsAmount}, 2 - {colomsAmount}");
 
-            
+
             this.button2.Visible = true;
             this.flowLayoutPanel1.Visible = true;
             this.flowLayoutPanel2.Visible = true;
@@ -96,9 +94,9 @@ namespace Kurs
             // make panel 1
             for (int i = 0; i < rawsAmount; i++)
             {
-                flowLayoutPanel1.Controls.Add(new FlowLayoutPanel {FlowDirection =  FlowDirection.LeftToRight, Height = 26});
-                
-                for(int j = 0; j < colomsAmount; j++)
+                flowLayoutPanel1.Controls.Add(new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, Height = 26 });
+
+                for (int j = 0; j < colomsAmount; j++)
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
                     panel.Width = (int)37 * colomsAmount;
@@ -106,10 +104,10 @@ namespace Kurs
                     box.MouseClick += TextBox_OnFocus;
                     box.KeyPress += TextBox_KeyPress;
                     panel.Controls.Add(box);
-                    
+
                 }
             }
-            
+
             //make panel 2
             for (int i = 0; i < rawsAmount; i++)
             {
@@ -125,29 +123,58 @@ namespace Kurs
                     panel.Controls.Add(box);
                 }
             }
-            
+
 
         }
 
-       
+
 
         private void button2_Click(object sender, EventArgs e)
         {
             int AddOrSubtract;
             double[,] array1 = new double[rawsAmount, colomsAmount];
             double[,] array2 = new double[rawsAmount, colomsAmount];
-            double[,] result = new double[rawsAmount, colomsAmount];
-           
-            for (int i = 0; i < rawsAmount; i++ )
+            int k = 0, h = 0;
+            for (int i = 0; i < rawsAmount; i++)
             {
-                for(int j = 0; j < colomsAmount; j++)
+                for (int j = 0; j < colomsAmount; j++)
                 {
+                    if ((flowLayoutPanel1.Controls[i].Controls[j].Text) == "")
+                    {
+                        k++;
+
+                        flowLayoutPanel1.Controls[i].Controls[j].Text = "0";
+
+
+                    }
+                    if ((flowLayoutPanel2.Controls[i].Controls[j].Text) == "")
+                    {
+                        h++;
+
+                        flowLayoutPanel2.Controls[i].Controls[j].Text = "0";
+
+
+                    }
                     
-                    array1[i, j] = int.Parse( flowLayoutPanel1.Controls[i].Controls[j].Text);
-                    array2[i, j] = int.Parse( flowLayoutPanel2.Controls[i].Controls[j].Text);
-                   // Console.Write($"{array1[i, j]}");
                 }
-               // Console.WriteLine();
+
+            }
+            if (k > 0 || h > 0)
+                validateSizeOfMatrix2();
+
+
+            double[,] result = new double[rawsAmount, colomsAmount];
+
+            for (int i = 0; i < rawsAmount; i++)
+            {
+                for (int j = 0; j < colomsAmount; j++)
+                {
+
+                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                    array2[i, j] = int.Parse(flowLayoutPanel2.Controls[i].Controls[j].Text);
+                    // Console.Write($"{array1[i, j]}");
+                }
+                // Console.WriteLine();
             }
 
             if (comboBox3.Text == "+")
@@ -160,8 +187,8 @@ namespace Kurs
             {
                 case 1:
                     {
-                        
-                      
+
+
                         for (int i = 0; i < rawsAmount; i++)
                         {
                             for (int j = 0; j < colomsAmount; j++)
@@ -169,13 +196,13 @@ namespace Kurs
                                 result[i, j] = array1[i, j] + array2[i, j];
                             }
                         }
-                        
+
                     }
                     break;
 
                 case 2:
                     {
-                        
+
                         for (int i = 0; i < rawsAmount; i++)
                         {
                             for (int j = 0; j < colomsAmount; j++)
@@ -183,12 +210,12 @@ namespace Kurs
                                 result[i, j] = array1[i, j] - array2[i, j];
                             }
                         }
-                        
+
                     }
                     break;
             }
             this.label8.Visible = true;
-            label8.Location = new System.Drawing.Point(19, 196 + (30*rawsAmount));
+            label8.Location = new System.Drawing.Point(19, 196 + (30 * rawsAmount));
 
             flowLayoutPanel3.Visible = true;
             flowLayoutPanel3.Location = new System.Drawing.Point(19, 226 + (30 * rawsAmount));
@@ -205,9 +232,9 @@ namespace Kurs
                 {
                     FlowLayoutPanel panel = (FlowLayoutPanel)flowLayoutPanel3.Controls[flowLayoutPanel3.Controls.Count - 1];
                     panel.Width = (int)37 * colomsAmount;
-                    
-                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center  } );
-                    
+
+                    panel.Controls.Add(new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center });
+
                 }
             }
 
@@ -215,11 +242,11 @@ namespace Kurs
             {
                 for (int j = 0; j < colomsAmount; j++)
                 {
-                    
+
                     flowLayoutPanel3.Controls[i].Controls[j].Text = $"{result[i, j]}";
-                    
+
                 }
-                
+
             }
 
         }
@@ -232,11 +259,33 @@ namespace Kurs
             this.Close();
         }
 
- 
-   
-         private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        private void validateSizeOfMatrix2()
         {
-             ((TextBox)sender).Text = "";
+            // Checks the value of the text.
+
+            // Initializes the variables to pass to the MessageBox.Show method.
+
+            string message = "Введені не всі комірки, тому вони = 0";
+            string caption = "Помилка";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+
+            // Displays the MessageBox.
+            result = MessageBox.Show(message, caption, buttons);
+            //if (result == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // Closes the parent form.
+            //    this.Close();
+            //    Form4 newform = new Form4();
+            //    newform.Show();
+            //}
+
+
+        }
+
+        private void TextBox_OnFocus(object sender, MouseEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
         }
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -248,19 +297,19 @@ namespace Kurs
         }
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
-           
-            if(((TextBox)sender).Text != "")
+
+            if (((TextBox)sender).Text != "")
             {
-               for(int i = 0; i < ((TextBox)sender).Text.Length; i++)
+                for (int i = 0; i < ((TextBox)sender).Text.Length; i++)
                 {
-                    if(((TextBox)sender).Text[i] < '0' || ((TextBox)sender).Text[i] > '9')
+                    if (((TextBox)sender).Text[i] < '0' || ((TextBox)sender).Text[i] > '9')
                     {
                         ((TextBox)sender).Text = ((TextBox)sender).Text.Remove(i, 1);
                     }
                 }
             }
 
-            
+
         }
         private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
@@ -294,6 +343,10 @@ namespace Kurs
 
         }
 
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
         private void label6_Click(object sender, EventArgs e)
         {
 
