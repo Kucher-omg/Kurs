@@ -188,7 +188,7 @@ namespace Kurs
             {
                 for (int j = 0; j < rawsAmount; j++)
                 {
-                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                    array1[i, j] = double.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
                     // Console.Write($"{array1[i, j]}");
                 }
                 // Console.WriteLine();
@@ -238,5 +238,11 @@ namespace Kurs
             }
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form8 newform = new Form8();
+            newform.Show();
+        }
     }
 }

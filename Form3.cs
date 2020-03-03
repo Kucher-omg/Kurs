@@ -171,7 +171,7 @@ namespace Kurs
             {
                 for (int j = 0; j < colomsAmount; j++)
                 {
-                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                    array1[i, j] = double.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
                     // Console.Write($"{array1[i, j]}");
                 }
                 // Console.WriteLine();
@@ -213,6 +213,13 @@ namespace Kurs
         private void Form3_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form3 newform = new Form3();
+            newform.Show();
         }
     }
 }

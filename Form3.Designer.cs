@@ -41,6 +41,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -61,7 +62,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(115, 43);
             this.button3.TabIndex = 19;
-            this.button3.Text = "Back to menu";
+            this.button3.Text = "До меню";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -193,11 +194,22 @@
             this.flowLayoutPanel2.Visible = false;
             this.flowLayoutPanel2.WrapContents = false;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(768, 0);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(127, 43);
+            this.button4.TabIndex = 31;
+            this.button4.Text = "Порахувати ще раз";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(895, 544);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button2);
@@ -235,5 +247,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Button button4;
     }
 }

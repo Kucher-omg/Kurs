@@ -160,7 +160,7 @@ namespace Kurs
             {
                 for (int j = 0; j < rawsAmount; j++)
                 {
-                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                    array1[i, j] = double.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
                     // Console.Write($"{array1[i, j]}");
                 }
                 // Console.WriteLine();
@@ -186,6 +186,13 @@ namespace Kurs
             {
                 e.Handled = true;
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form7 newform = new Form7();
+            newform.Show();
         }
     }
 }

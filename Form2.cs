@@ -102,6 +102,7 @@ namespace Kurs
                     panel.Width = (int)37 * colomsAmount;
                     TextBox box = new TextBox { Width = 30, Height = 20, Text = "0", TextAlign = HorizontalAlignment.Center };
                     box.MouseClick += TextBox_OnFocus;
+                    box.PreviewKeyDown += TextBox_OnFocus1;
                     box.KeyPress += TextBox_KeyPress;
                     panel.Controls.Add(box);
 
@@ -111,7 +112,7 @@ namespace Kurs
             //make panel 2
             for (int i = 0; i < rawsAmount; i++)
             {
-                flowLayoutPanel2.Controls.Add(new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, Height = 26 });
+                flowLayoutPanel2.Controls.Add(new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, Height = 26});
 
                 for (int j = 0; j < colomsAmount; j++)
                 {
@@ -170,8 +171,8 @@ namespace Kurs
                 for (int j = 0; j < colomsAmount; j++)
                 {
 
-                    array1[i, j] = int.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
-                    array2[i, j] = int.Parse(flowLayoutPanel2.Controls[i].Controls[j].Text);
+                    array1[i, j] = double.Parse(flowLayoutPanel1.Controls[i].Controls[j].Text);
+                    array2[i, j] = double.Parse(flowLayoutPanel2.Controls[i].Controls[j].Text);
                     // Console.Write($"{array1[i, j]}");
                 }
                 // Console.WriteLine();
@@ -283,6 +284,11 @@ namespace Kurs
 
         }
 
+        private void TextBox_OnFocus1(object sender, PreviewKeyDownEventArgs e)
+        {
+          //  ((TextBox)sender).AcceptsTab = ;
+        }
+
         private void TextBox_OnFocus(object sender, MouseEventArgs e)
         {
             ((TextBox)sender).Text = "";
@@ -347,6 +353,14 @@ namespace Kurs
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form2 newform = new Form2();
+            newform.Show();
+        }
+
         private void label6_Click(object sender, EventArgs e)
         {
 
